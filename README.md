@@ -3,7 +3,7 @@
 ¡Bienvenido a mi aplicación de seguimiento de series! 
 Esta es una SPA (Single Page Application) desarrollada con **JavaScript Vanilla** que permite buscar series, ver sus detalles y gestionar tu progreso capítulo a capítulo.
 
-🔗 **[VER PROYECTO ONLINE AQUI](https://github.com/flopypalma-16-11)**
+🔗 **[VER PROYECTO ONLINE AQUI](https://flopypalma-16-11.github.io/tv-tracker-portfolio/)**
 
 ## 🚀 Funcionalidades
 - **Buscador en tiempo real:** Conexión a la API de TMDB.
