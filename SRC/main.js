@@ -43,16 +43,9 @@ function showSection(sectionName) {
     }
 }
 
-// Botón "Buscar" (del menú de arriba)
-// Si tienes un botón en el nav para volver al buscador, añádele id="nav-search-btn" en el HTML
-// O reutiliza el botón de buscar si quieres. Asumiré que quieres volver al buscador:
+
 const navSearchBtn = document.querySelector('#btn-search'); 
 
-// Ojo: en tu HTML original tenías id="btn-search" para el botón junto al input.
-// Si tienes botones en el Header, asegúrate de tener IDs únicos.
-// Vamos a asumir que el botón del header para ir a "Buscar" se llama 'nav-home' 
-// y el de la lupa 'search-action'.
-// Si usas el mismo botón para todo, ajusta los IDs. 
 
 
 // Evento: Clic en "Mis Series"
@@ -68,11 +61,8 @@ libraryBtn.addEventListener('click', () => {
 });
 
 
-// Evento: Volver al buscador (Opcional, si quieres que el título o un botón vuelva al inicio)
-// document.querySelector('h1').addEventListener('click', () => showSection('search'));
-// src/main.js (Añadir al final)
 
-// Lógica para el botón "Buscador" del menú
+
 const navHomeBtn = document.getElementById('nav-home');
 
 if (navHomeBtn) {
