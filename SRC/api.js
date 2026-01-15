@@ -22,7 +22,7 @@ export async function searchShow(query) {
         return []; // Devolvemos array vacío para que la app no rompa
     }
 }
-// src/api.js (Añade esto al final)
+
 
 export async function getTVDetails(id) {
     // Endpoint: /tv/{series_id}
@@ -38,9 +38,9 @@ export async function getTVDetails(id) {
         return null;
     }
 }
-// src/api.js (Al final)
 
-// Obtener todos los capítulos de una temporada específica
+
+// Obtengo todos los capítulos de una temporada específica
 export async function getSeasonDetails(seriesId, seasonNumber) {
     // Endpoint: /tv/{id}/season/{season_number}
     const url = `${API_BASE_URL}/tv/${seriesId}/season/${seasonNumber}?api_key=${API_KEY}&language=es-ES`;
