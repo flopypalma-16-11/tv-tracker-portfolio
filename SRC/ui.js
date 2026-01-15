@@ -37,7 +37,7 @@ modalOverlay.addEventListener('click', (e) => {
     }
 );
 
-// --- 1. RENDERIZAR RESULTADOS DE BÚSQUEDA ---
+
 export function renderResults(seriesList) {
     const grid = document.getElementById('results-grid');
     grid.innerHTML = '';
@@ -116,7 +116,7 @@ function renderModalContent(serie) {
     }
 }
 
-// --- 2. RENDERIZAR MI LIBRERÍA (CORREGIDO) ---
+
 export function renderLibrary(seriesList) {
     const grid = document.getElementById('library-grid');
     grid.innerHTML = '';
@@ -158,7 +158,6 @@ export function renderLibrary(seriesList) {
     });
 }
 
-// --- 3. MODAL DE TEMPORADAS (CORREGIDO) ---
 async function openSeasonModal(serieId, serieName, totalSeasons) {
     modalBody.innerHTML = `<h2>${serieName}</h2><p>Cargando temporadas...</p>`;
     modalOverlay.classList.remove('hidden');
