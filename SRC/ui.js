@@ -2,8 +2,6 @@
 import { getTVDetails, getSeasonDetails } from './api.js';
 import { addToLibrary, isInLibrary, toggleEpisode, isEpisodeWatched, getLibrary } from './storage.js';
 
-// --- ARREGLO DE IMÁGENES: Definimos la URL aquí también por seguridad ---
-// Si por lo que sea no la importa bien de config.js, usará esta de reserva:
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 
 // --- ELEMENTOS GLOBALES DEL MODAL ---
@@ -11,7 +9,7 @@ const modalOverlay = document.getElementById('modal-overlay');
 const modalBody = document.getElementById('modal-body');
 const closeBtn = document.getElementById('close-modal');
 
-// Cerrar modal con botón X
+// Cerrar modal
 if (closeBtn) {
     closeBtn.addEventListener('click', () => {
         modalOverlay.classList.add('hidden');
@@ -19,7 +17,6 @@ if (closeBtn) {
     });
 }
 
-// Cerrar modal con clic fuera
 if (modalOverlay) {
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) {
@@ -33,24 +30,21 @@ function refreshLibraryView() {
     const libraryGrid = document.getElementById('library-grid');
     const librarySection = document.getElementById('library-section');
     
-    // Solo refrescamos si la sección de librería existe y es visible
     if (libraryGrid && librarySection && !librarySection.classList.contains('hidden')) {
         const titleElement = document.querySelector('#library-section h2');
-        // Si no encuentra el título, asumimos que estamos en vista general
         const titleText = titleElement ? titleElement.innerText : '';
         const fullLibrary = getLibrary();
         
         if (titleText.includes('Películas')) {
             renderLibrary(fullLibrary.filter(i => i.title));
         } else {
-            // Por defecto series
             renderLibrary(fullLibrary.filter(i => i.name));
         }
     }
 }
 
-// --- 1. RENDERIZAR RESULTADOS DE BÚSQUEDA ---
-export function renderResults(seriesList) {
+// --- RENDERIZAR RESULTADOS ---
+export function renderResults(list) {
     const grid = document.getElementById('results-grid');
     grid.innerHTML = '';
 
@@ -60,11 +54,9 @@ export function renderResults(seriesList) {
     }
 
     list.forEach(item => {
-        // Detectamos si es Peli o Serie
         const isMovie = !!item.title;
         const displayTitle = item.name || item.title || "Sin título";
         
-        // Usamos la variable segura IMG_URL
         const imagePath = item.poster_path 
             ? `${IMG_URL}${item.poster_path}` 
             : 'https://via.placeholder.com/500x750?text=No+Image';
@@ -88,13 +80,10 @@ export function renderResults(seriesList) {
             modalOverlay.classList.remove('hidden');
             
             let dataToShow = item;
-
-            // Solo pedimos detalles extra si es SERIE
             if (!isMovie) {
                 const details = await getTVDetails(item.id);
                 if (details) dataToShow = details;
             }
-            
             renderModalContent(dataToShow); 
         });
 
@@ -102,7 +91,7 @@ export function renderResults(seriesList) {
     });
 }
 
-// --- FUNCION DEL MODAL (AQUÍ ESTÁ EL ARREGLO DE TEXTO) ---
+// --- MODAL DE DETALLES ---
 function renderModalContent(item) {
     const imagePath = item.poster_path 
         ? `${IMG_URL}${item.poster_path}` 
@@ -112,18 +101,7 @@ function renderModalContent(item) {
     const displayTitle = item.name || item.title || "Sin título";
     const tipoContenido = isMovie ? "Mis Películas" : "Mis Series";
 
-    // --- 🔥 CORRECCIÓN DE TEXTO ---
-    // Creamos el HTML de la información dependiendo de si es peli o serie
-    let infoHtml = '';
-    
-    if (isMovie) {
-        // Si es película, NO ponemos "Temporadas"
-        infoHtml = `<p>🎬 <strong>Película</strong></p>`; 
-    } else {
-        // Si es serie, ponemos el número de temporadas
-        const seasons = item.number_of_seasons || '?';
-        infoHtml = `<p>📚 Temporadas: <strong>${seasons}</strong></p>`;
-    }
+    let infoHtml = isMovie ? `<p>🎬 <strong>Película</strong></p>` : `<p>📚 Temporadas: <strong>${item.number_of_seasons || '?'}</strong></p>`;
 
     const isSaved = isInLibrary(item.id);
     const buttonText = isSaved ? `✅ Ya en ${tipoContenido}` : `Agregar a ${tipoContenido}`;
@@ -135,11 +113,8 @@ function renderModalContent(item) {
             <img src="${imagePath}" style="max-width: 200px; border-radius: 8px;">
             <h2>${displayTitle}</h2>
             <p>⭐ ${item.vote_average ? item.vote_average.toFixed(1) : '?'} / 10</p>
-            
             ${infoHtml}
-            
             <p style="text-align: left; margin-top: 15px;">${item.overview || 'Sin descripción disponible.'}</p>
-            
             <button id="btn-add-library" ${buttonDisabled} style="margin-top: 20px; padding: 10px 20px; color: white; border: none; border-radius: 5px; ${buttonStyle}">
                 ${buttonText}
             </button>
@@ -162,8 +137,8 @@ function renderModalContent(item) {
     }
 }
 
-// --- 2. RENDERIZAR MI LIBRERÍA (CORREGIDO) ---
-export function renderLibrary(seriesList) {
+// --- RENDERIZAR LIBRERÍA ---
+export function renderLibrary(list) {
     const grid = document.getElementById('library-grid');
     grid.innerHTML = '';
 
@@ -183,7 +158,6 @@ export function renderLibrary(seriesList) {
         const card = document.createElement('div');
         card.classList.add('tv-card');
         
-        // Si es peli, ocultamos cosas de series
         const watchedInfo = isMovie ? '' : `<p>${item.watchedEpisodes ? item.watchedEpisodes.length : 0} caps. vistos</p>`;
         const btnDisplay = isMovie ? 'display: none;' : ''; 
 
@@ -212,43 +186,30 @@ export function renderLibrary(seriesList) {
         }
     });
 }
-// --- PEGAR ESTO AL FINAL DE src/ui.js ---
 
-// --- 3. MODAL DE TEMPORADAS (CORREGIDO) ---
+// --- MODAL DE TEMPORADAS ---
 async function openSeasonModal(serieId, serieName, totalSeasons) {
-    const modalBody = document.getElementById('modal-body');
-    const modalOverlay = document.getElementById('modal-overlay');
-
     modalBody.innerHTML = `<h2>${serieName}</h2><p>Cargando temporadas...</p>`;
     modalOverlay.classList.remove('hidden');
 
     let htmlContent = `<h2>${serieName}</h2><div class="seasons-container">`;
 
-    // Recorremos todas las temporadas (desde la 1 hasta la última)
     for (let i = 1; i <= totalSeasons; i++) {
         const episodes = await getSeasonDetails(serieId, i);
         
-        // Creamos la carpeta (details/summary)
         htmlContent += `
             <details class="season-folder">
                 <summary>Temporada ${i} (${episodes ? episodes.length : 0} caps)</summary>
                 <div class="episode-list">
         `;
 
-        // Si hay capítulos, los pintamos
         if(episodes && episodes.length > 0) {
             episodes.forEach(ep => {
-                // Comprobamos si ya está visto
                 const isChecked = isEpisodeWatched(serieId, i, ep.episode_number) ? 'checked' : '';
-                
                 htmlContent += `
                     <div class="episode-item">
                         <label>
-                            <input type="checkbox" class="ep-check" 
-                                data-serie="${serieId}" 
-                                data-season="${i}" 
-                                data-ep="${ep.episode_number}" 
-                                ${isChecked}>
+                            <input type="checkbox" class="ep-check" data-serie="${serieId}" data-season="${i}" data-ep="${ep.episode_number}" ${isChecked}>
                             <span style="margin-left:10px; color:#ccc;">${ep.episode_number}x${i} - ${ep.name}</span>
                         </label>
                     </div>
@@ -257,21 +218,16 @@ async function openSeasonModal(serieId, serieName, totalSeasons) {
         } else {
             htmlContent += `<p style="padding:10px">No hay info de capítulos.</p>`;
         }
-
         htmlContent += `</div></details>`; 
     }
 
     htmlContent += `</div>`;
     modalBody.innerHTML = htmlContent;
 
-    // Asignamos eventos a los checkboxes para que guarden el progreso
     const checks = modalBody.querySelectorAll('.ep-check');
     checks.forEach(check => {
         check.addEventListener('change', (e) => {
-            const sId = e.target.dataset.serie;
-            const season = e.target.dataset.season;
-            const ep = e.target.dataset.ep;
-            toggleEpisode(sId, season, ep);
+            toggleEpisode(e.target.dataset.serie, e.target.dataset.season, e.target.dataset.ep);
         });
     });
 }
