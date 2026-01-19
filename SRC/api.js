@@ -55,9 +55,9 @@ export async function getTVDetails(id) {
         return null;
     }
 }
-// src/api.js (Al final)
 
-// Obtener todos los capítulos de una temporada específica
+
+// Obtengo todos los capítulos de una temporada específica
 export async function getSeasonDetails(seriesId, seasonNumber) {
     // Endpoint: /tv/{id}/season/{season_number}
     const url = `${API_BASE_URL}/tv/${seriesId}/season/${seasonNumber}?api_key=${API_KEY}&language=es-ES`;

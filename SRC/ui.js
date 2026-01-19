@@ -50,7 +50,7 @@ function refreshLibraryView() {
 }
 
 // --- 1. RENDERIZAR RESULTADOS DE BÚSQUEDA ---
-export function renderResults(list) {
+export function renderResults(seriesList) {
     const grid = document.getElementById('results-grid');
     grid.innerHTML = '';
 
@@ -162,8 +162,8 @@ function renderModalContent(item) {
     }
 }
 
-// --- 2. RENDERIZAR MI LIBRERÍA ---
-export function renderLibrary(list) {
+// --- 2. RENDERIZAR MI LIBRERÍA (CORREGIDO) ---
+export function renderLibrary(seriesList) {
     const grid = document.getElementById('library-grid');
     grid.innerHTML = '';
 
@@ -214,7 +214,7 @@ export function renderLibrary(list) {
 }
 // --- PEGAR ESTO AL FINAL DE src/ui.js ---
 
-// --- 3. MODAL DE TEMPORADAS ---
+// --- 3. MODAL DE TEMPORADAS (CORREGIDO) ---
 async function openSeasonModal(serieId, serieName, totalSeasons) {
     const modalBody = document.getElementById('modal-body');
     const modalOverlay = document.getElementById('modal-overlay');

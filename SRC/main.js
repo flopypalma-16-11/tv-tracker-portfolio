@@ -138,12 +138,50 @@ function showSection(sectionName) {
     } else if (sectionName === 'library') {
         searchSection.classList.add('hidden');
         librarySection.classList.remove('hidden');
-        // Ocultamos los filtros de búsqueda si nos vamos a la librería
-        if(filtersContainer) filtersContainer.classList.add('hidden');
     }
 }
 
-function changeLibraryTitle(text) {
-    const titleElement = document.querySelector('#library-section h2');
-    if(titleElement) titleElement.innerText = text;
+// Botón "Buscar" (del menú de arriba)
+// Si tienes un botón en el nav para volver al buscador, añádele id="nav-search-btn" en el HTML
+// O reutiliza el botón de buscar si quieres. Asumiré que quieres volver al buscador:
+const navSearchBtn = document.querySelector('#btn-search'); 
+
+// Ojo: en tu HTML original tenías id="btn-search" para el botón junto al input.
+// Si tienes botones en el Header, asegúrate de tener IDs únicos.
+// Vamos a asumir que el botón del header para ir a "Buscar" se llama 'nav-home' 
+// y el de la lupa 'search-action'.
+// Si usas el mismo botón para todo, ajusta los IDs. 
+
+
+// Evento: Clic en "Mis Series"
+libraryBtn.addEventListener('click', () => {
+    // 1. Cambiamos la vista
+    showSection('library');
+    
+    // 2. Leemos los datos guardados
+    const myCollection = getLibrary();
+    
+    // 3. Pintamos la librería
+    renderLibrary(myCollection);
+});
+
+
+// Evento: Volver al buscador (Opcional, si quieres que el título o un botón vuelva al inicio)
+// document.querySelector('h1').addEventListener('click', () => showSection('search'));
+// src/main.js (Añadir al final)
+
+// Lógica para el botón "Buscador" del menú
+const navHomeBtn = document.getElementById('nav-home');
+
+if (navHomeBtn) {
+    navHomeBtn.addEventListener('click', () => {
+        // Reutilizamos la función que ya tenías para cambiar de vista
+        showSection('search'); 
+        
+        // Opcional: Limpiar el buscador para empezar de cero
+        document.getElementById('search-input').value = ''; 
+        document.getElementById('results-grid').innerHTML = '';
+    });
+} else {
+    console.error("⚠️ Cuidado: No encuentro el botón con id='nav-home' en el HTML");
 }
