@@ -1,22 +1,43 @@
-# 📺 Flor TV Tracker
+# 🎬 TV Tracker - Buscador y Gestor de Series & Películas
 
-¡Bienvenido a mi aplicación de seguimiento de series! 
-Esta es una SPA (Single Page Application) desarrollada con **JavaScript Vanilla** que permite buscar series, ver sus detalles y gestionar tu progreso capítulo a capítulo.
+¡Bienvenido a **TV Tracker**! Una Single Page Application (SPA) desarrollada con **JavaScript Vanilla** que te permite explorar el catálogo de TMDB, filtrar entre cine y series, y gestionar tu biblioteca personal.
 
-🔗 **[VER PROYECTO ONLINE AQUI](https://flopypalma-16-11.github.io/tv-tracker-portfolio/)**
+🔗 **[VER PROYECTO ONLINE AQUÍ](https://flopypalma-16-11.github.io/tv-tracker-portfolio/)**
 
-## 🚀 Funcionalidades
-- **Buscador en tiempo real:** Conexión a la API de TMDB.
-- **Persistencia de datos:** Tus series guardadas no se borran al recargar (uso de `localStorage`).
-- **Gestión de Progreso:** Marca capítulos vistos y observa cómo crece tu barra de porcentaje.
-- **Diseño Reactivo:** Interfaz que responde a las acciones del usuario sin recargar la página.
+## 📸 Vista Previa
 
-## 🛠️ Tecnologías Usadas
-- **HTML5 & CSS3** (Diseño Flexbox/Grid).
-- **JavaScript (ES6+)**: Async/Await, DOM Manipulation, Modules.
-- **API Externa**: The Movie Database (TMDB).
-- **Git & GitHub Pages**.
+*(Aquí puedes poner una captura de pantalla de tu web más adelante)*
 
-## 👩‍💻 Autora
-**Florencia Palma** - Desarrolladora de Aplicaciones Multiplataforma (DAM).
-Aprendiendo y construyendo en público. 🚀
+## 🚀 Funcionalidades Principales
+
+* **🔍 Buscador Híbrido:** Conexión a la API de TMDB para buscar tanto **Series** como **Películas** en tiempo real.
+* **⚡ Filtros Inteligentes:** Clasifica los resultados al instante: "Todo", "Solo Series" o "Solo Películas".
+* **💾 Persistencia de Datos:** Tus favoritos se guardan en el navegador (`localStorage`), así que no los pierdes al cerrar la pestaña.
+* **✅ Gestión de Capítulos:** Sistema para marcar episodios vistos en tus series guardadas.
+* **🎨 UI "Netflix Style":** Diseño moderno en modo oscuro, con maquetación **CSS Grid** y **Flexbox** totalmente responsiva (móvil y escritorio).
+* **📂 Modal de Detalles:** Ventana emergente con información detallada, temporadas y gestión de episodios.
+
+## 🛠️ Tecnologías Utilizadas
+
+* **Lenguaje:** JavaScript (ES6+) - *Sin frameworks, puro Vanilla JS.*
+* **Asincronía:** Uso de `async/await` y `fetch` para el consumo de APIs.
+* **Maquetación:** HTML5 & CSS3 (Variables CSS, Media Queries).
+* **Control de Versiones:** Git & GitHub (Manejo de ramas y conflictos).
+* **API Externa:** [The Movie Database (TMDB)](https://www.themoviedb.org/).
+
+## 💻 Instalación y Uso Local
+
+Si quieres probar el código en tu ordenador:
+
+1.  Clona el repositorio:
+    ```bash
+    git clone [https://github.com/flopypalma-16-11/tv-tracker-portfolio.git](https://github.com/flopypalma-16-11/tv-tracker-portfolio.git)
+    ```
+2.  Abre el archivo `index.html` en tu navegador.
+3.  ¡Disfruta!
+
+---
+
+👩‍💻 **Autora:** Florencia Palma
+*Desarrolladora de Aplicaciones Multiplataforma (DAM).*
+*Construyendo y aprendiendo en público.* 🚀
