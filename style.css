@@ -1,40 +1,151 @@
-/* style.css */
+/* src/style.css */
+
+/* --- 1. CONFIGURACIÓN GENERAL (Estilo Dark Mode) --- */
+:root {
+    --primary-color: #e50914; /* Rojo Netflix */
+    --bg-color: #141414;      /* Fondo muy oscuro */
+    --card-bg: #1f1f1f;       /* Fondo de las tarjetas */
+    --text-color: #ffffff;
+    --text-secondary: #b3b3b3;
+}
+
 body {
-    
-    font-family: 'Inter', sans-serif; /* O la que hayas elegido */
-    background-color: #141414; /* Un negro más "Netflix", no negro puro */
-    color: #e5e5e5;
-
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    line-height: 1.6;
 }
 
-/* El contenedor Grid */
-.grid-container {
-    display: grid;
-    /* Esto crea columnas automáticas que se ajustan al tamaño */
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
+/* --- 2. CABECERA Y NAVEGACIÓN --- */
+header {
+    display: flex;
+    justify-content: space-between; /* Logo a un lado, menú al otro */
+    align-items: center;
+    padding: 20px 40px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0));
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--bg-color); /* Fondo sólido al hacer scroll si quisieras */
 }
 
-/* La tarjeta individual */
-.tv-card {
-    background-color: #333;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.2s;
+h1 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+nav button {
+    background: transparent;
+    color: var(--text-color);
+    border: none;
+    margin-left: 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+nav button:hover {
+    color: var(--text-secondary);
+}
+
+/* --- 3. SECCIONES PRINCIPALES --- */
+section {
+    padding: 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- 4. BUSCADOR Y FILTROS --- */
+#search-section {
+    text-align: center;
+    margin-top: 40px;
+}
+
+#search-input {
+    padding: 15px;
+    width: 100%;
+    max-width: 400px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+#btn-search {
+    padding: 15px 30px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 4px;
     cursor: pointer;
 }
 
+#search-filters {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.filter-btn {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    background-color: rgba(255,255,255,0.3);
+}
+
+/* Clase para el botón activo (el rojo) */
+.filter-btn.active {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border-color: white;
+}
+
+/* --- 5. GRID DE RESULTADOS (Tarjetas) --- */
+.grid-container {
+    display: grid;
+    /* Esto crea columnas automáticas según el tamaño de la pantalla */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.tv-card {
+    background-color: var(--card-bg);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
 .tv-card:hover {
-    transform: scale(1.05); /* Efecto zoom al pasar el ratón */
+    transform: scale(1.05); /* Efecto zoom al pasar ratón */
+    z-index: 10;
 }
 
 .tv-card img {
     width: 100%;
-    height: auto;
-    display: block;
+    height: 300px;
+    object-fit: cover; /* Para que la imagen no se deforme */
 }
 
 .card-info {
@@ -42,239 +153,102 @@ body {
 }
 
 .card-info h3 {
-    font-size: 1rem;
     margin: 0 0 5px 0;
+    font-size: 1rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; /* Puntos suspensivos si el título es largo */
 }
-/* style.css (Al final) */
 
-/* El fondo oscuro que cubre toda la pantalla */
+/* --- 6. MODAL (Ventana emergente) --- */
 #modal-overlay {
     position: fixed;
-    top: 0;
+    top: 0; 
     left: 0;
-    width: 100%;
+    width: 100%; 
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85); /* Negro semitransparente */
+    background-color: rgba(0,0,0,0.8); /* Fondo negro transparente */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Para que quede encima de todo */
+    z-index: 1000;
+    backdrop-filter: blur(5px); /* Efecto borroso de fondo */
 }
 
-/* La tarjeta blanca (o gris) del centro */
 .modal-content {
-    background-color: #2a2a2a;
-    padding: 20px;
-    border-radius: 10px;
+    background-color: #181818;
+    padding: 30px;
+    border-radius: 8px;
     width: 90%;
     max-width: 600px;
-    max-height: 80vh; /* Altura máxima del 80% de la ventana */
-    overflow-y: auto; /* Scroll si el contenido es muy largo */
+    max-height: 85vh; /* Que no sea más alto que la pantalla */
+    overflow-y: auto; /* Scroll si es muy largo */
     position: relative;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    color: white;
 }
 
-/* Botón de cerrar */
 #close-modal {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    background: transparent;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+    background: none;
     border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
 }
 
-/* Clase de utilidad para ocultar cosas */
-.hidden {
-    display: none !important;
-}
-/* style.css */
-
-/* Badges de estado */
-.status-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.status-badge.pending {
-    background-color: #f5a623; /* Naranja TV Time */
-    color: black;
-}
-
-.status-badge.completed {
-    background-color: #4cd137; /* Verde */
-    color: black;
-}
-
-/* Contenedor de la barra */
-.progress-container {
-    margin-top: 10px;
-}
-
-.progress-text {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    color: #aaa;
-    margin-bottom: 5px;
-}
-
-/* La barra gris de fondo */
-.progress-bar-bg {
-    width: 100%;
-    height: 6px;
-    background-color: #444;
-    border-radius: 3px;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-/* El relleno de color (el ancho lo pone JS) */
-.progress-bar-fill {
-    height: 100%;
-    background-color: #f5a623; /* Amarillo/Naranja */
-    transition: width 0.3s ease; /* Animación suave */
-}
-
-/* Botones + y - */
-.progress-controls {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-control {
-    flex: 1;
-    padding: 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.btn-control.plus {
-    background-color: #f5a623;
-    color: black;
-}
-
-.btn-control.minus {
-    background-color: #333;
-    color: white;
-}
-/* style.css */
-
-.btn-manage {
-    width: 100%;
-    padding: 8px;
-    margin-top: 10px;
-    background-color: #333;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 4px;
-    cursor: pointer;
+/* --- 7. DETALLES DE TEMPORADAS --- */
+.seasons-container {
+    margin-top: 20px;
+    text-align: left;
 }
 
 .season-folder {
-    background-color: #222;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    overflow: hidden;
+    background: #333;
+    margin-bottom: 5px;
+    border-radius: 4px;
 }
 
 .season-folder summary {
-    padding: 15px;
+    padding: 10px;
     cursor: pointer;
-    background-color: #333;
-    font-weight: bold;
-    list-style: none; /* Quita el triángulo por defecto en algunos navegadores */
-}
-
-.season-folder summary::after {
-    content: '+'; 
-    float: right;
+    list-style: none; /* Quita el triángulo por defecto feo */
     font-weight: bold;
 }
 
-.season-folder[open] summary::after {
-    content: '-';
+.season-folder summary:hover {
+    background-color: #444;
 }
 
 .episode-list {
+    background-color: #222;
     padding: 10px;
-    background-color: #1a1a1a;
+    border-top: 1px solid #444;
 }
 
 .episode-item {
-    padding: 8px 0;
+    padding: 5px 0;
     border-bottom: 1px solid #333;
 }
 
-.episode-item label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-}
-
-.episode-item input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    accent-color: #e50914; /* Color del check */
-}
-
-.ep-number {
-    color: #888;
-    font-size: 0.9em;
-    min-width: 40px;
-}
-
-/* --- ESTILOS PARA LOS FILTROS DE BÚSQUEDA --- */
-
-.filters-container {
-    display: flex;
-    justify-content: center; /* Centrados en el medio */
-    gap: 15px;               /* Separación entre botones */
-    margin: 20px 0;          /* Espacio arriba y abajo */
-}
-
-/* El botón normal (sin pulsar) */
-.filter-btn {
-    background-color: transparent;
-    border: 1px solid #555;
-    color: #fff;
-    padding: 8px 20px;
-    border-radius: 50px;     /* Bordes redondos tipo etiqueta */
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease; /* Suavidad al cambiar de color */
-}
-
-.filter-btn:hover {
-    background-color: #333;  /* Color al pasar el ratón */
-    border-color: #777;
-}
-
-/* EL ESTADO ACTIVO (Importante) */
-/* Así se verá el botón que esté seleccionado en ese momento */
-.filter-btn.active {
-    background-color: #e50914; /* Rojo Netflix */
-    border-color: #e50914;
-    color: white;
-    font-weight: bold;
-}
-
-/* Clase de utilidad para ocultar cosas */
-/* (Seguramente ya la tienes, pero por si acaso revisa que esté) */
-.hidden {
-    display: none !important;
+/* --- 8. RESPONSIVE (Móvil) --- */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        padding: 15px;
+    }
+    
+    nav {
+        margin-top: 10px;
+    }
+    
+    #search-input {
+        width: 100%;
+    }
+    
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
+    }
 }
