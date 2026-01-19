@@ -10,7 +10,9 @@
  <header>
     <h1>📺 Flor TV Tracker</h1>
     <nav>
-        <button id="nav-home">🔍 Ir al Buscador</button> <button id="btn-library">📚 Mis Series</button>
+        <button id="nav-home">🔍 Ir al Buscador</button>
+         <button id="btn-library">📚 Mis Series</button>
+         <button id="btn-library1">🎬 Mis Peliculas</button>
     </nav>
 </header>
 
@@ -18,6 +20,11 @@
         <section id="search-section">
             <input type="text" id="search-input" placeholder="Buscar serie (ej. Breaking Bad)...">
             <button id="btn-search">Buscar</button>
+            <div id="search-filters" class="filters-container hidden">
+             <button id="filter-all" class="filter-btn active">Todo</button>
+             <button id="filter-series" class="filter-btn">📺 Solo Series</button>
+            <button id="filter-movies" class="filter-btn">🎬 Solo Películas</button>
+            </div>
             <div id="results-grid" class="grid-container"></div>
         </section>
 

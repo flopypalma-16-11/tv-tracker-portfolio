@@ -1,24 +1,28 @@
 // src/storage.js
 
-const KEY = 'my_tv_library_v2'; // Cambiamos el nombre para no mezclar con la versión anterior
+const KEY = 'my_tv_library_v2'; 
 
 export function getLibrary() {
-    const seriesString = localStorage.getItem(KEY);
-    console.log("Intentando leer del LocalStorage con la clave:", KEY); // <--- Chivato 1
-    console.log("Lo que he encontrado es:", seriesString); // <--- Chivato 2
-    return seriesString ? JSON.parse(seriesString) : [];
+    const dataString = localStorage.getItem(KEY);
+    return dataString ? JSON.parse(dataString) : [];
 }
 
-export function addToLibrary(serie) {
+export function addToLibrary(item) {
     const library = getLibrary();
-    if (library.some(item => item.id === serie.id)) return false;
+    // Evitamos duplicados
+    if (library.some(saved => saved.id === item.id)) return false;
 
+    // 🔥 AQUÍ ESTABA EL PROBLEMA 🔥
+    // Antes solo guardábamos 'name'. Ahora guardamos TODO lo importante.
     const newEntry = {
-        id: serie.id,
-        name: serie.name,
-        poster_path: serie.poster_path,
-        number_of_seasons: serie.number_of_seasons, // Necesitamos saber cuántas carpetas crear
-        watchedEpisodes: [] // ARRAY DE IDs (ej: "S1_E1", "S1_E2")
+        id: item.id,
+        name: item.name,       // Para series
+        title: item.title,     // Para películas (¡ESTO FALTABA!)
+        poster_path: item.poster_path,
+        vote_average: item.vote_average,
+        overview: item.overview,
+        number_of_seasons: item.number_of_seasons,
+        watchedEpisodes: [] 
     };
 
     library.push(newEntry);
@@ -26,17 +30,15 @@ export function addToLibrary(serie) {
     return true;
 }
 
-// Nueva función: Marcar/Desmarcar un capítulo concreto
+// Marcar/Desmarcar un capítulo
 export function toggleEpisode(seriesId, seasonNum, episodeNum) {
     const library = getLibrary();
     const index = library.findIndex(item => item.id == seriesId);
 
     if (index !== -1) {
         const serie = library[index];
-        // Creamos un ID único para el capítulo: "S1_E5"
         const episodeCode = `S${seasonNum}_E${episodeNum}`;
 
-        // Si ya está, lo quitamos (filter). Si no está, lo ponemos (push).
         if (serie.watchedEpisodes.includes(episodeCode)) {
             serie.watchedEpisodes = serie.watchedEpisodes.filter(code => code !== episodeCode);
         } else {
@@ -50,14 +52,13 @@ export function toggleEpisode(seriesId, seasonNum, episodeNum) {
     return false;
 }
 
-// Saber si un capitulo concreto está visto (para pintar el checkbox)
 export function isEpisodeWatched(seriesId, seasonNum, episodeNum) {
     const library = getLibrary();
     const serie = library.find(item => item.id == seriesId);
     if (!serie) return false;
     
     const episodeCode = `S${seasonNum}_E${episodeNum}`;
-    return serie.watchedEpisodes.includes(episodeCode);
+    return serie.watchedEpisodes ? serie.watchedEpisodes.includes(episodeCode) : false;
 }
 
 export function isInLibrary(id) {
