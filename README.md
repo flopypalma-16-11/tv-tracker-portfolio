@@ -4,24 +4,28 @@
 
 🔗 **[VER PROYECTO ONLINE AQUÍ](https://flopypalma-16-11.github.io/tv-tracker-portfolio/)**
 
+<<<<<<< HEAD
 
+=======
+
+> > > > > > > 496fadd4d2622bb4b46a991e435fac3b1f945ede
 
 ## 🚀 Funcionalidades Principales
 
-* **🔍 Buscador Híbrido:** Conexión a la API de TMDB para buscar tanto **Series** como **Películas** en tiempo real.
-* **⚡ Filtros Inteligentes:** Clasifica los resultados al instante: "Todo", "Solo Series" o "Solo Películas".
-* **💾 Persistencia de Datos:** Tus favoritos se guardan en el navegador (`localStorage`), así que no los pierdes al cerrar la pestaña.
-* **✅ Gestión de Capítulos:** Sistema para marcar episodios vistos en tus series guardadas.
-* **🎨 UI "Netflix Style":** Diseño moderno en modo oscuro, con maquetación **CSS Grid** y **Flexbox** totalmente responsiva (móvil y escritorio).
-* **📂 Modal de Detalles:** Ventana emergente con información detallada, temporadas y gestión de episodios.
+- **🔍 Buscador Híbrido:** Conexión a la API de TMDB para buscar tanto **Series** como **Películas** en tiempo real.
+- **⚡ Filtros Inteligentes:** Clasifica los resultados al instante: "Todo", "Solo Series" o "Solo Películas".
+- **💾 Persistencia de Datos:** Tus favoritos se guardan en el navegador (`localStorage`), así que no los pierdes al cerrar la pestaña.
+- **✅ Gestión de Capítulos:** Sistema para marcar episodios vistos en tus series guardadas.
+- **🎨 UI "Netflix Style":** Diseño moderno en modo oscuro, con maquetación **CSS Grid** y **Flexbox** totalmente responsiva (móvil y escritorio).
+- **📂 Modal de Detalles:** Ventana emergente con información detallada, temporadas y gestión de episodios.
 
 ## 🛠️ Tecnologías Utilizadas
 
-* **Lenguaje:** JavaScript (ES6+) - *Sin frameworks, puro Vanilla JS.*
-* **Asincronía:** Uso de `async/await` y `fetch` para el consumo de APIs.
-* **Maquetación:** HTML5 & CSS3 (Variables CSS, Media Queries).
-* **Control de Versiones:** Git & GitHub (Manejo de ramas y conflictos).
-* **API Externa:** [The Movie Database (TMDB)](https://www.themoviedb.org/).
+- **Lenguaje:** JavaScript (ES6+) - _Sin frameworks, puro Vanilla JS._
+- **Asincronía:** Uso de `async/await` y `fetch` para el consumo de APIs.
+- **Maquetación:** HTML5 & CSS3 (Variables CSS, Media Queries).
+- **Control de Versiones:** Git & GitHub (Manejo de ramas y conflictos).
+- **API Externa:** [The Movie Database (TMDB)](https://www.themoviedb.org/).
 
 ## 💻 Instalación y Uso Local
 
@@ -37,5 +41,5 @@ Si quieres probar el código en tu ordenador:
 ---
 
 👩‍💻 **Autora:** Florencia Palma
-*Desarrolladora de Aplicaciones Multiplataforma (DAM).*
-*Construyendo y aprendiendo en público.* 🚀
+_Desarrolladora de Aplicaciones Multiplataforma (DAM)._
+_Construyendo y aprendiendo en público._ 🚀
