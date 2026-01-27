@@ -4,12 +4,6 @@
 
 🔗 **[VER PROYECTO ONLINE AQUÍ](https://flopypalma-16-11.github.io/tv-tracker-portfolio/)**
 
-<<<<<<< HEAD
-
-=======
-
-> > > > > > > 496fadd4d2622bb4b46a991e435fac3b1f945ede
-
 ## 🚀 Funcionalidades Principales
 
 - **🔍 Buscador Híbrido:** Conexión a la API de TMDB para buscar tanto **Series** como **Películas** en tiempo real.
