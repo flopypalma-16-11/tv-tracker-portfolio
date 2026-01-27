@@ -40,6 +40,27 @@ Si quieres probar el código en tu ordenador:
 
 ---
 
+## 🚀 Retos y Aprendizajes (Challenges & Learnings)
+
+Este proyecto ha sido mi gran escuela de JavaScript y Git. Durante el desarrollo me encontré con varios obstáculos técnicos que tuve que resolver:
+
+### 1. Integración de Pasarela de Pago (Stripe)
+
+- **El Problema:** Al principio intenté usar `stripe.redirectToCheckout` directamente en el frontend. La consola me devolvía errores de integración (`IntegrationError`) porque las cuentas nuevas de Stripe tienen restricciones de seguridad para integraciones "client-only".
+- **La Solución:** Cambié la estrategia a **Stripe Payment Links**. Aprendí a pasar parámetros en la URL (`?redirect_url=...`) desde JavaScript para forzar que, tras el pago, el usuario sea redirigido automáticamente de vuelta a mi aplicación, mejorando la experiencia de usuario (UX).
+
+### 2. Seguridad y Gestión de Claves
+
+- **El Error:** Durante las pruebas, confundí la _Secret Key_ con la _Publishable Key_.
+- **El Aprendizaje:** Entendí la importancia crítica de no exponer claves secretas (`sk_...`) en el frontend. Realicé la rotación de claves en el Dashboard de Stripe para asegurar la cuenta y limpié el código para usar solo enlaces públicos seguros.
+
+### 3. Control de Versiones (Git)
+
+- **El Reto:** Al trabajar entre varios archivos y hacer cambios rápidos, me encontré con conflictos de fusión (_Merge Conflicts_) en el `README.md`.
+- **La Solución:** Aprendí a usar la interfaz de VS Code para comparar los cambios entrantes vs. locales, decidir con qué versión quedarme y resolver el conflicto manualmente antes de hacer el push final.
+
+---
+
 👩‍💻 **Autora:** Florencia Palma
 _Desarrolladora de Aplicaciones Multiplataforma (DAM)._
 _Construyendo y aprendiendo en público._ 🚀
