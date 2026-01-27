@@ -1,53 +1,76 @@
-// src/main.js
 import { searchShow, searchMovies } from './api.js';
 import { renderResults, renderLibrary } from './ui.js';
 import { getLibrary } from './storage.js';
 
-// --- 1. ELEMENTOS DEL DOM ---
+// ==========================================
+// 1. INTEGRACIÓN DE PAGOS (STRIPE)
+// ==========================================
+const checkoutButton = document.getElementById('checkout-button');
+
+if (checkoutButton) {
+    checkoutButton.addEventListener('click', () => {
+        // Tu enlace de pago seguro de Stripe
+        const stripeLink = 'https://buy.stripe.com/test_dRmeVe3tB1J1fqT14W9IQ00';
+        
+        // Detectamos la dirección actual de tu web para volver
+        const currentUrl = window.location.href;
+        
+        // Redirigimos enviando la dirección de vuelta
+        window.location.href = `${stripeLink}?redirect_url=${encodeURIComponent(currentUrl)}`;
+    });
+}
+
+// ==========================================
+// 2. ELEMENTOS DEL DOM
+// ==========================================
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('btn-search');
 
-// Botones del Menú de Navegación
+// Navegación
 const btnNavSearch = document.getElementById('nav-home');
-const btnNavSeries = document.getElementById('btn-library');
-const btnNavMovies = document.getElementById('btn-library1');
+const btnNavSeries = document.getElementById('btn-library');  // Botón "Mis Series"
+const btnNavMovies = document.getElementById('btn-library1'); // Botón "Mis Películas"
 
-// Secciones (Vistas)
+// Secciones
 const searchSection = document.getElementById('search-section');
 const librarySection = document.getElementById('library-section');
 
-// Elementos de los Filtros de Búsqueda
+// Filtros
 const filtersContainer = document.getElementById('search-filters');
 const btnFilterAll = document.getElementById('filter-all');
 const btnFilterSeries = document.getElementById('filter-series');
 const btnFilterMovies = document.getElementById('filter-movies');
 
-// Variable para recordar qué hemos buscado
+// Estado (Memoria de búsqueda)
 let currentSearchResults = []; 
 
 
-// --- 2. LÓGICA DE BÚSQUEDA ---
+// ==========================================
+// 3. LÓGICA DE BÚSQUEDA
+// ==========================================
 async function handleSearch() {
     const query = searchInput.value.trim();
     if (query === "") return;
     
     showSection('search');
     
-    // A. Buscamos Series y Pelis
-    const series = await searchShow(query);
-    const movies = await searchMovies(query);
-    
-    // B. Guardamos TODO en nuestra variable de memoria
-    currentSearchResults = [...series, ...movies];
+    try {
+        // A. Buscamos Series y Pelis en paralelo
+        const series = await searchShow(query);
+        const movies = await searchMovies(query);
+        
+        // B. Guardamos TODO en memoria
+        currentSearchResults = [...series, ...movies];
 
-    // C. Mostramos los botones de filtro
-    if (filtersContainer) filtersContainer.classList.remove('hidden');
+        // C. Mostramos filtros y reseteamos estado
+        if (filtersContainer) filtersContainer.classList.remove('hidden');
+        updateFilterActiveState('all');
 
-    // D. Reseteamos el filtro a "Todo" visualmente
-    updateFilterActiveState('all');
-
-    // E. Pintamos todo
-    renderResults(currentSearchResults); 
+        // D. Pintamos resultados
+        renderResults(currentSearchResults); 
+    } catch (error) {
+        console.error("Error en la búsqueda:", error);
+    }
 }
 
 // Eventos del Buscador
@@ -59,7 +82,9 @@ if(searchInput) {
 }
 
 
-// --- 3. LÓGICA DE LOS BOTONES DE FILTRO ---
+// ==========================================
+// 4. LÓGICA DE FILTROS
+// ==========================================
 
 // Filtro: TODO
 if (btnFilterAll) {
@@ -73,7 +98,7 @@ if (btnFilterAll) {
 if (btnFilterSeries) {
     btnFilterSeries.addEventListener('click', () => {
         updateFilterActiveState('series');
-        const onlySeries = currentSearchResults.filter(item => item.name);
+        const onlySeries = currentSearchResults.filter(item => item.name); // Las series tienen 'name'
         renderResults(onlySeries);
     });
 }
@@ -82,23 +107,27 @@ if (btnFilterSeries) {
 if (btnFilterMovies) {
     btnFilterMovies.addEventListener('click', () => {
         updateFilterActiveState('movies');
-        const onlyMovies = currentSearchResults.filter(item => item.title);
+        const onlyMovies = currentSearchResults.filter(item => item.title); // Las pelis tienen 'title'
         renderResults(onlyMovies);
     });
 }
 
 function updateFilterActiveState(type) {
+    // Quitamos la clase 'active' de todos
     btnFilterAll.classList.remove('active');
     btnFilterSeries.classList.remove('active');
     btnFilterMovies.classList.remove('active');
 
+    // Se la ponemos al que hemos clicado
     if (type === 'all') btnFilterAll.classList.add('active');
     if (type === 'series') btnFilterSeries.classList.add('active');
     if (type === 'movies') btnFilterMovies.classList.add('active');
 }
 
 
-// --- 4. LÓGICA DE NAVEGACIÓN ---
+// ==========================================
+// 5. LÓGICA DE NAVEGACIÓN
+// ==========================================
 
 if (btnNavSearch) {
     btnNavSearch.addEventListener('click', () => {
@@ -111,6 +140,7 @@ if (btnNavSeries) {
         showSection('library');
         changeLibraryTitle("📺 Mis Series Guardadas");
         const fullLibrary = getLibrary();
+        // Filtramos para mostrar solo series
         renderLibrary(fullLibrary.filter(item => item.name));
     });
 }
@@ -120,11 +150,14 @@ if (btnNavMovies) {
         showSection('library');
         changeLibraryTitle("🎬 Mis Películas Guardadas");
         const fullLibrary = getLibrary();
+        // Filtramos para mostrar solo películas
         renderLibrary(fullLibrary.filter(item => item.title));
     });
 }
 
-// --- 5. FUNCIONES AUXILIARES ---
+// ==========================================
+// 6. FUNCIONES AUXILIARES
+// ==========================================
 
 function showSection(sectionName) {
     if (sectionName === 'search') {

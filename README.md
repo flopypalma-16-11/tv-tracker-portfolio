@@ -4,9 +4,7 @@
 
 🔗 **[VER PROYECTO ONLINE AQUÍ](https://flopypalma-16-11.github.io/tv-tracker-portfolio/)**
 
-## 📸 Vista Previa
 
-*(Aquí puedes poner una captura de pantalla de tu web más adelante)*
 
 ## 🚀 Funcionalidades Principales
 
